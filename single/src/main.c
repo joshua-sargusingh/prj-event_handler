@@ -20,6 +20,9 @@ int main() {
     // Call event_deinitialize to clean up
     event_deinitialize(&event_1);
 
+    // Free the memory for the Event object itself
+    free(&event_1);
+
     // Print message to indicate cleanup
     printf("Event deinitialized\n");
 
