@@ -5,19 +5,20 @@
 #include <stdbool.h>
 
 #include "event_notifier.h"
-//
+
 void handler(const Event* event, const void* data, size_t size) {
-    //Function implementation here
+
 }
 
 //initialize an event
 void event_initialize(Event *event) {
+    //struct already created (8 bytes)
     //declare static so I can increment it every call
     static int counter = 0;
 
     if (event != NULL) {
         event->event_id = ++counter; //increment event_id
-        event->subs = NULL; //initialize subscribers to NULL so there is no need to allocate memory yet
+        event->subs = NULL; //initialize subscribers to NULL
     } else {
         printf("Invalid event pointer\n");
         exit(1);
@@ -62,11 +63,22 @@ bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, 
         return false;
     }
 
-    //assign
+    //assign values to the new Subscriber node
     sub_new->sub_id = ++counter; //unique identifier
-    // sub_new->handler = handler; //allows each subscriber to have a unique handler function for the event they are subscribing to.
-    sub_new->next = event->subs; //sets at beginning by pointing to current head of the list -> this links the list
-    event->subs = sub_new; // updates the head of subscriber list to that event to point to newest addition
+    sub_new->handler = handler;
+    sub_new->next = NULL; // Initialize next pointer to NULL
+
+    //link the new Subscriber node to the existing list
+    if (event->subs == NULL) {
+        event->subs = sub_new; // First subscriber in the list
+    } else {
+        // Find the last node in the list and link the new node
+        Subscriber* current = event->subs;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = sub_new; // Link the new node to the end of the list
+    }
 
     return true; 
 }
