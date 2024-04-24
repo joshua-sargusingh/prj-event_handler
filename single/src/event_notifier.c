@@ -6,16 +6,16 @@
 
 #include "event_notifier.h"
 
-// Initialize an event
+//initialize an event
 void event_initialize(Event *event) {
     //declare static so I can increment it every call
     static int counter = 0;
 
     if (event != NULL) {
         event->event_id = ++counter; //increment event_id
-        event->subs = NULL; // Initialize subscribers to NULL
+        event->subs = NULL; //initialize subscribers to NULL so there is no need to allocate memory yet
     } else {
-        printf("Invalid event pointer\n"); // Print error
+        printf("Invalid event pointer\n");
         exit(1);
     }
 }
@@ -23,13 +23,13 @@ void event_initialize(Event *event) {
 // Deinitialize an event
 void event_deinitialize(Event *event) {
    if (event != NULL) {
-        // Free memory allocated for subscribers (if any)
+        //free memory allocated for subscribers (if any)
         if (event->subs != NULL) {
             free(event->subs);
             event->subs = NULL;
         }
         
-        event->event_id = 0; // Reset event ID to 0
+        event->event_id = 0; //reset event ID to 0
     } else {
         printf("Invalid event pointer\n");
         exit(1);
@@ -38,33 +38,63 @@ void event_deinitialize(Event *event) {
 
 // Subscribe to an event
 bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, size_t)) {
-    
+    //declare static so I can increment it every call
+    static int counter = 0;
+
     //error check
-    if (event == NULL || handler == NULL) {
-        return false; // Invalid arguments, Unsubscription failed
+    if (event == NULL) { //|| handler == NULL was removed as error check to test code without function input 
+        return false; //invalid arguments, unsubscription failed
     }
 
+    //create a new Subscriber node
+    Subscriber* sub_new = (Subscriber*)malloc(sizeof(Subscriber));
 
+    //error check
+    if (sub_new == NULL) {
+        printf("Memory Allocation Error");
+        return false;
+    }
 
+    //assign
+    sub_new->sub_id = ++counter; //unique identifier
+    sub_new->handler; //allows each subscriber to have a unique handler function for the event they are subscribing to.
+    sub_new->next = event->subs; //sets at beginning by pointing to current head of the list -> this links the list
+    event->subs = sub_new; // updates the head of subscriber list to that event to point to newest addition
 
     return true; 
 }
 
 // Unsubscribe from an event
-bool event_unsubscribe(Event *event, void (*handler)(const Event *, const void *, size_t)) {
+bool event_unsubscribe(Event *event, int sub_id) {
 
     //error check
-    if (event == NULL || handler == NULL) {
-        return false; // Invalid arguments, Unsubscription failed
+    if (event == NULL) {
+        return false; //invalid arguments, unsubscription failed
     }
 
+    //assign temp nodes to traverse linked list
+    Subscriber* curr = event->subs; //equal to first element of linked list
+    Subscriber* prev = NULL; //equal to first element of linked list
 
-
-
-    return true; 
+    //traverses the linked list to find the subscriber and unsubscribe
+    while (curr->sub_id != NULL) {
+        if (curr->sub_id == sub_id) { //if equal
+            if (prev == NULL) { //first element check
+                event->subs = curr->next; //update head of linked list
+            } else {
+                prev->next = curr->next;
+            }
+            free(curr);
+            return true;
+        }
+        prev = curr;
+        curr = curr->next; //move to next node
+    }
+    
+    return false; 
 }
 
-// Notify subscribers of an event
+//notify subscribers of an event
 void event_notify(Event *event, const void *data, size_t length) {
     
 }

@@ -6,6 +6,10 @@
 
 #include "event_notifier.h"
 
+void event_handle(const Event* event, const void* data, size_t size) {
+    // Your event handler function implementation here
+}
+
 int main() {
 
     // Declare an Event struct 1
@@ -16,6 +20,20 @@ int main() {
 
     // Perform actions with the Event object (e.g., print event ID)
     printf("Initialized Event ID: %d\n", event_1.event_id);
+
+    //subscribe to an event
+    if (event_subscribe(&event_1,event_handle) == true) {
+        printf("Subscriber has subscribed to event %d", event_1.event_id);
+    } else {
+        printf("Subscriber failed to subscribe to event %d", event_1.event_id);
+    }
+
+    //unsubscribe to an event
+    if (event_subscribe(&event_1,1) == true) {
+        printf("Subscriber has unsubscribed to event %d", event_1.event_id);
+    } else {
+        printf("Subscriber failed to unsubscribe to event %d", event_1.event_id);
+    }    
 
     // Call event_deinitialize to clean up
     event_deinitialize(&event_1);

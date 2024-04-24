@@ -10,6 +10,7 @@
 typedef struct {
     int sub_id;
     struct Subscriber *next;
+    void (*handler)(const Event *, const void *, size_t);
 } Subscriber;
 
 // Struct to Represent an Event
@@ -19,11 +20,12 @@ typedef struct {
     struct Subscriber* subs; 
 } Event;
 
-
-
-//void (*handler)(const Event *, const void *, size_t);
-
-
+// Placeholder Function: We declare it so that the compiler knows that it exists although the function is not in my code
+// This handler function points to a function that knows how to handle incoming data from the event
+// It can either update the data or display a msg
+// When calling it from a void function, I am saying "handler, I have an event that I need handled."
+// This function then takes the input and outputs the data from the event so I can use it.
+typedef void (*handler)(const Event *, const void *, size_t);
 
 // Function to initialize the event system
 void event_initialize(Event *event);
@@ -32,10 +34,10 @@ void event_initialize(Event *event);
 void event_deinitialize(Event *event);
 
 // Function to subscribe to an event
-//bool event_subscribe(Event *event, void (*handler)(const Event*, const void *, size_t));
+bool event_subscribe(Event *event, void (*handler)(const Event*, const void *, size_t));
 
 // Function to unsubscribe from an event
-//bool event_unsubscribe(Event *event, void (*handler)(const Event*, const void *, size_t));
+bool event_unsubscribe(Event *event, void (*handler)(const Event*, const void *, size_t));
 
 // Function to notify subscribers of an event
 //void event_notify(Event *event, const void *data, size_t length);
