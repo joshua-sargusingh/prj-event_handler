@@ -5,6 +5,10 @@
 #include <stdbool.h>
 
 #include "event_notifier.h"
+//
+void handler(const Event* event, const void* data, size_t size) {
+    //Function implementation here
+}
 
 //initialize an event
 void event_initialize(Event *event) {
@@ -30,6 +34,9 @@ void event_deinitialize(Event *event) {
         }
         
         event->event_id = 0; //reset event ID to 0
+
+        free(event); //free event
+
     } else {
         printf("Invalid event pointer\n");
         exit(1);
@@ -57,7 +64,7 @@ bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, 
 
     //assign
     sub_new->sub_id = ++counter; //unique identifier
-    sub_new->handler; //allows each subscriber to have a unique handler function for the event they are subscribing to.
+    // sub_new->handler = handler; //allows each subscriber to have a unique handler function for the event they are subscribing to.
     sub_new->next = event->subs; //sets at beginning by pointing to current head of the list -> this links the list
     event->subs = sub_new; // updates the head of subscriber list to that event to point to newest addition
 
@@ -77,7 +84,7 @@ bool event_unsubscribe(Event *event, int sub_id) {
     Subscriber* prev = NULL; //equal to first element of linked list
 
     //traverses the linked list to find the subscriber and unsubscribe
-    while (curr->sub_id != NULL) {
+    while (curr != NULL) {
         if (curr->sub_id == sub_id) { //if equal
             if (prev == NULL) { //first element check
                 event->subs = curr->next; //update head of linked list

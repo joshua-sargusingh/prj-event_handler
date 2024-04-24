@@ -1,4 +1,5 @@
 // event_notifier.c
+//NOT COMPLETE
 
 #include <stdlib.h>
 #include "event_notifier.h"
