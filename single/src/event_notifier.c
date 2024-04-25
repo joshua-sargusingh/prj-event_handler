@@ -10,6 +10,26 @@ void handler(const Event* event, const void* data, size_t size) {
 
 }
 
+Subscriber* sub_create() {
+    //declare static so I can increment it every call
+    static int counter = 0;
+
+    Subscriber* sub_new = (Subscriber*)malloc(sizeof(Subscriber));
+
+    //error check
+    if (sub_new == NULL) {
+        printf("Memory Allocation Error");
+        return NULL;
+    }
+
+    //assign values to the new Subscriber node
+    sub_new->sub_id = ++counter; //unique identifier
+    //sub_new->handler = handler;
+    sub_new->next = NULL; // Initialize next pointer to NULL
+
+    return sub_new;
+};
+
 //initialize an event
 void event_initialize(Event *event) {
     //struct already created (8 bytes)
@@ -29,14 +49,18 @@ void event_initialize(Event *event) {
 void event_deinitialize(Event *event) {
    if (event != NULL) {
         //free memory allocated for subscribers (if any)
-        if (event->subs != NULL) {
-            free(event->subs);
-            event->subs = NULL;
+        Subscriber *current = event->subs;
+        Subscriber *next = NULL;
+
+        while (current != NULL) {
+            next = current->next;
+            free(current);
+            current = next;
         }
         
-        event->event_id = 0; //reset event ID to 0
+        event->subs = NULL; // Set subs pointer to NULL after freeing all nodes
 
-        free(event); //free event
+        // free(event); //free event
 
     } else {
         printf("Invalid event pointer\n");
@@ -46,8 +70,6 @@ void event_deinitialize(Event *event) {
 
 // Subscribe to an event
 bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, size_t)) {
-    //declare static so I can increment it every call
-    static int counter = 0;
 
     //error check
     if (event == NULL) { //|| handler == NULL was removed as error check to test code without function input 
@@ -55,18 +77,12 @@ bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, 
     }
 
     //create a new Subscriber node
-    Subscriber* sub_new = (Subscriber*)malloc(sizeof(Subscriber));
+    Subscriber* sub_new = sub_create();
 
-    //error check
+    // Link the new Subscriber node to the existing list
     if (sub_new == NULL) {
-        printf("Memory Allocation Error");
-        return false;
+        return false; // Memory allocation failed, subscription failed
     }
-
-    //assign values to the new Subscriber node
-    sub_new->sub_id = ++counter; //unique identifier
-    sub_new->handler = handler;
-    sub_new->next = NULL; // Initialize next pointer to NULL
 
     //link the new Subscriber node to the existing list
     if (event->subs == NULL) {

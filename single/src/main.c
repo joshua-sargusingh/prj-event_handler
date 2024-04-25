@@ -10,6 +10,7 @@ int main() {
 
     // Declare an Event struct 1
     Event event_1;
+    Subscriber* head = NULL;
 
     // Initialize the Event struct using event_initialize function
     event_initialize(&event_1);
@@ -19,16 +20,16 @@ int main() {
 
     //subscribe to an event
     if (event_subscribe(&event_1, handler) == true) {
-        printf("Subscriber has subscribed to event %d", event_1.event_id);
+        printf("Subscriber has subscribed to event %d\n", event_1.event_id);
     } else {
-        printf("Subscriber failed to subscribe to event %d", event_1.event_id);
+        printf("Subscriber failed to subscribe to event %d\n", event_1.event_id);
     }
 
     //unsubscribe to an event
     if (event_unsubscribe(&event_1,1) == true) {
-        printf("Subscriber has unsubscribed to event %d", event_1.event_id);
+        printf("Subscriber has unsubscribed to event %d\n", event_1.event_id);
     } else {
-        printf("Subscriber failed to unsubscribe to event %d", event_1.event_id);
+        printf("Subscriber failed to unsubscribe to event %d\n", event_1.event_id);
     }    
 
     // Call event_deinitialize to clean up
