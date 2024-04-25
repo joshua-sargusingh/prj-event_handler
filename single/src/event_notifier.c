@@ -54,6 +54,9 @@ bool event_subscribe(Event *event, void (*handler)(const Event *, const void *, 
         return false; //invalid arguments, unsubscription failed
     }
 
+    // Allocate memory for event->subs using calloc
+    event->subs = sub_new
+
     //create a new Subscriber node
     Subscriber* sub_new = (Subscriber*)malloc(sizeof(Subscriber));
 

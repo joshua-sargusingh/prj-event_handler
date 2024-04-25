@@ -20,7 +20,7 @@ typedef struct{
 typedef struct{
     int event_id;
     //This pointer to subscriber struct represents the subscribers subscribed to this event. By using a pointer - multiple subscribers can associate with the same event
-    struct Subscriber* subs; 
+    Subscriber* subs; 
 }Event;
 
 // Placeholder Function: We declare it so that the compiler knows that it exists

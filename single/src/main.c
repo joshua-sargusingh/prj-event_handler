@@ -9,7 +9,7 @@
 int main() {
 
     // Declare an Event struct 1
-    Event event_1;  
+    Event event_1;
 
     // Initialize the Event struct using event_initialize function
     event_initialize(&event_1);
