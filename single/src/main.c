@@ -23,9 +23,9 @@ int main() {
 
     //subscribe to an event
     if (event_subscribe(event_1, handler) == true) {
-        printf("Subscriber has subscribed to event %d\n", event_1->event_id);
+        printf("Subscriber has subscribed to Event ID: %d\n", event_1->event_id);
     } else {
-        printf("Subscriber failed to subscribe to event %d\n", event_1->event_id);
+        printf("Subscriber failed to subscribe to Event ID: %d\n", event_1->event_id);
     }
 
     //notify event
@@ -35,9 +35,9 @@ int main() {
 
     //unsubscribe to an event
     if (event_unsubscribe(event_1,1) == true) {
-        printf("Subscriber has unsubscribed to event %d\n", event_1->event_id);
+        printf("Subscriber has unsubscribed to Event ID: %d\n", event_1->event_id);
     } else {
-        printf("Subscriber failed to unsubscribe to event %d\n", event_1->event_id);
+        printf("Subscriber failed to unsubscribe to Event ID: %d\n", event_1->event_id);
     }    
 
     // Call event_deinitialize to clean up
