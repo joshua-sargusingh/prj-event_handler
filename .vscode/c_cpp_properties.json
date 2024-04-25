@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "complex",
-            "compileCommands": "${workspaceFolder}/copmplex/build/compile_commands.json"
+            "compileCommands": "${workspaceFolder}/complex/build/compile_commands.json"
         },
         {
             "name": "simple",
