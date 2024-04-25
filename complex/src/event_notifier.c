@@ -10,6 +10,18 @@ void handler(const Event* event, const void* data, size_t size) {
 
 }
 
+Event* event_create() {
+
+    Event* event = (Event*)malloc(sizeof(Event));
+
+    if (event == NULL) {
+        printf("Memory Allocation Error\n");
+        return 1;
+    }
+
+    return event;
+}
+
 Subscriber* sub_create() {
     //declare static so I can increment it every call
     static int counter = 0;
