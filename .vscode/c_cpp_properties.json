@@ -2,11 +2,11 @@
     "configurations": [
         {
             "name": "complex",
-            "compileCommands": "${workspaceFolder}/complex/build/compile_commands.json"
+            "compileCommands": "/home/joshua/prj-event_handler/complex/build/compile_commands.json"
         },
         {
             "name": "simple",
-            "compileCommands": "${workspaceFolder}/simple/build/compile_commands.json"
+            "compileCommands": "/home/joshua/prj-event_handler/simple/build/compile_commands.json"
         }
     ],
     "version": 4
