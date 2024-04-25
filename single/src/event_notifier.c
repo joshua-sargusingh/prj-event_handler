@@ -131,5 +131,17 @@ bool event_unsubscribe(Event *event, int sub_id) {
 
 //notify subscribers of an event
 void event_notify(Event *event, const void *data, size_t length) {
-    
+    //error check
+    if (event == NULL) {
+        return false; //invalid arguments, unsubscription failed
+    }   
+
+    // Traverse the subscriber list
+    Subscriber* current = event->subs;
+    while (current != NULL) {
+        // Call the handler function for each subscriber
+        // current->handler(event, data, length);
+        printf("Notified Subscriber %d\n", current->sub_id);
+        current = current->next;  // Move to the next subscriber
+    }
 }
