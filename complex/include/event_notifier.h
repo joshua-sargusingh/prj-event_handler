@@ -10,14 +10,14 @@
 struct Event;
 
 // Struct to Hold Information about a Subscriber
-typedef struct{
+typedef struct Subscriber{
     int sub_id;
     struct Subscriber *next;
     void (*handler)(const struct Event *, const void *, size_t);
 }Subscriber;
 
 // Struct to Represent an Event
-typedef struct{
+typedef struct Event{
     int event_id;
     //This pointer to subscriber struct represents the subscribers subscribed to this event. By using a pointer - multiple subscribers can associate with the same event
     Subscriber* subs; 

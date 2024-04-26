@@ -20,7 +20,7 @@ Event* event_create() {
     }
 
     return event;
-}
+};
 
 Subscriber* sub_create() {
     //declare static so I can increment it every call

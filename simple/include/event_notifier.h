@@ -43,6 +43,6 @@ bool event_subscribe(Event *event, void (*handler)(const Event*, const void *, s
 bool event_unsubscribe(Event *event, int sub_id);
 
 // Function to notify subscribers of an event
-//void event_notify(Event *event, const void *data, size_t length);
+void event_notify(Event *event, const void *data, size_t length);
 
 #endif

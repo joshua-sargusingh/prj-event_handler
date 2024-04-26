@@ -131,11 +131,6 @@ bool event_unsubscribe(Event *event, int sub_id) {
 
 //notify subscribers of an event
 void event_notify(Event *event, const void *data, size_t length) {
-    //error check
-    if (event == NULL) {
-        return false; //invalid arguments, unsubscription failed
-    }   
-
     // Traverse the subscriber list
     Subscriber* current = event->subs;
     while (current != NULL) {
